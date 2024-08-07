@@ -23,8 +23,43 @@ outputs:
   commit-sha:
     description: SHA of created commit
 runs:
-  using: node20
-  main: dist/index.js
+  using: "composite"
+  steps:
+    - name: Detect Changes
+      id: detect-changes
+      shell: bash
+      env:
+        FILES: ${{ inputs.files }}
+      run: |
+        IFS=$'\n' read -d '' -r -a FILE_PATHS <<< "$FILES"
+        changes=$(git status -s --porcelain)
+
+        any_matched_changes=false
+        for FILE_PATH in "${FILE_PATHS[@]}"; do
+          if echo "$changes" | grep -q " $FILE_PATH\$"; then
+            echo "detected changes in file: $FILE_PATH"
+            any_matched_changes=true
+            break
+          fi
+        done
+
+        if [ "$any_matched_changes" = true ]; then
+          echo "PENDING_CHANGES=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "No changes detected in files."
+        fi
+
+    - uses: actions/setup-node@v4
+      if: steps.detect-changes.outputs.PENDING_CHANGES == 'true'
+      with:
+        node-version: 20
+        cache: npm
+
+    - name: Commit Changes
+      if: steps.detect-changes.outputs.PENDING_CHANGES == 'true'
+      run: |
+        npm run start
+
 branding:
   icon: git-commit
   color: orange
