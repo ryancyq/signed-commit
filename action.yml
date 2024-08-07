@@ -31,9 +31,12 @@ runs:
       env:
         FILES: ${{ inputs.files }}
       run: |
-        IFS=$'\n' read -d '' -r -a FILE_PATHS <<< "$FILES"
-        changes=$(git status -s --porcelain)
+        FILE_PATHS=()
+        while IFS= read -r line; do
+          FILE_PATHS+=("$line")
+        done <<< "$FILES"
 
+        changes=$(git status -s --porcelain)
         any_matched_changes=false
         for FILE_PATH in "${FILE_PATHS[@]}"; do
           if echo "$changes" | grep -q " $FILE_PATH\$"; then
