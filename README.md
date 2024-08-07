@@ -1,10 +1,12 @@
-# Commit
-> :white_check_mark: Create a _verified_ commit with GitHub Actions
+# Signed-Commit
+> :white_check_mark: Create a _signed_ commit with GitHub Actions
 
- ![](https://github.com/swinton/commit/workflows/tests/badge.svg) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+ ![](https://github.com/ryancyq/signed-commit/workflows/tests/badge.svg) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ## About
-This action allows you to create a commit with GitHub Actions. Commits created with this actions will be marked as _verified_.
+This action allows you to create a commit with GitHub Actions. Commits created with this actions will be marked as _signed_.
+
+This repo is forked from https://github.com/swinton/commit with additional features being added.
 
 ![image](https://user-images.githubusercontent.com/27806/102705224-ab118f80-424a-11eb-94c5-ab7396ccba13.png)
 
@@ -13,7 +15,7 @@ In your workflow, to commit a file `./myfile`, include a step like this:
 
 ```yaml
     - name: Commit file
-      uses: swinton/commit@v2.x
+      uses: ryancyq/signed-commit@v2.x
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -29,7 +31,7 @@ To commit multiple files in a single commit, pass each file on a newline to the 
 
 ```yaml
     - name: Commit files
-      uses: swinton/commit@v2.x
+      uses: ryancyq/signed-commit@v2.x
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:

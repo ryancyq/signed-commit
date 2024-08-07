@@ -1,5 +1,5 @@
-name: Verified commit
-description: GitHub Action to create verified commits
+name: Signed Commit
+description: GitHub Action to create signed commits
 inputs:
   files:
     description: |
