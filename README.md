@@ -8,6 +8,9 @@ This action allows you to create a commit with GitHub Actions. Commits created w
 
 This repo is forked from https://github.com/swinton/commit with additional features being added.
 
+### Detect-Changes Step
+`detect-changes` step is being added before committing the files. If the files specified in `inputs.files` do not have any of them appeared in the result of `git status -s`, the commit step will be skipped.
+
 ![image](https://user-images.githubusercontent.com/27806/102705224-ab118f80-424a-11eb-94c5-ab7396ccba13.png)
 
 ## Usage
